@@ -1,6 +1,7 @@
 import argparse
 import os
 import re
+from tqdm import tqdm
 import time
 
 
@@ -8,7 +9,7 @@ def read_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', required=True)
     parser.add_argument('-r', required=True)
-    parser.add_argument('-rf', required=True)
+    parser.add_argument('-rf')
     args = parser.parse_args()
     return args
 
@@ -36,7 +37,7 @@ def read_file(file_path):
 def filter_lines(file_path, regexp, lines):
     print(f'File path: {file_path}')
     time.sleep(0.05)
-    result = [file_path + '; ' + line + '\n' for line in lines if re.match(regexp, line)]
+    result = [file_path + '; ' + line + '\n' for line in tqdm(lines) if re.match(regexp, line)]
     write_file(result)
     return result
 
@@ -47,7 +48,7 @@ def write_file(lines):
         f.writelines(lines)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args = read_args()
     files_path = files_path(args)
     count_files = len(files_path)
