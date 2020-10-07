@@ -9,7 +9,7 @@ def read_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', required=True)
     parser.add_argument('-r', required=True)
-    parser.add_argument('-rf')
+    parser.add_argument('-rf', required=True)
     args = parser.parse_args()
     return args
 
