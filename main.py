@@ -1,6 +1,7 @@
 import argparse
 import os
 import re
+import time
 
 
 def read_args():
@@ -32,6 +33,20 @@ def read_file(file_path):
         return f.read()
 
 
+def filter_lines(file_path, regexp, lines):
+    print(f'File path: {file_path}')
+    time.sleep(0.05)
+    result = [file_path + '; ' + line + '\n' for line in lines if re.match(regexp, line)]
+    write_file(result)
+    return result
+
+
+def write_file(lines):
+    filename = 'output.log'
+    with open(filename, 'a') as f:
+        f.writelines(lines)
+
+
 if __name__ == '__main__':
     args = read_args()
     files_path = files_path(args)
@@ -41,3 +56,5 @@ if __name__ == '__main__':
         count_files_now += 1
         print(f'Reading {file_path} {count_files_now}/{count_files} files')
         lines = read_file(file_path).split('\n')
+        regexp = args.r
+        filter_lines(file_path, regexp, lines)
